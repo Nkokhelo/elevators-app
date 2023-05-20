@@ -25,18 +25,11 @@ public class Input : IInput
 
       try
       {
-        var requestInput = _validation.ValidateInput(input);
-        return new Request
-        {
-          OriginFloor = requestInput[0],
-          DestinationFloor = requestInput[1],
-          NoOfPeople = requestInput[2]
-        };
-
+        return _validation.ValidateAndPassInput(input);
       }
       catch (Exception e)
       {
-        _display.ShowMessage($"'{input}' is invalid, please try again:");
+        _display.ShowMessage(e.Message);
       }
     }
     while (true);

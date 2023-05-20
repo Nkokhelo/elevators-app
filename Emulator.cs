@@ -2,13 +2,17 @@ public class Emulator
 {
 
   private readonly ElevatorsController _elevatorController;
-  public Emulator()
+  private readonly IDisplay _display;
+  private int notElevators = 2;
+  private int maxFloors = 6;
+  private int maxPeople = 30;
+  public Emulator(IDisplay display)
   {
-    var display = new Display();
-    var validation = new Validation(6, 30);
+    _display = display;
+    var validation = new Validation(maxFloors, maxPeople);
     var elevatorInput = new Input(display, validation);
-    _elevatorController = new ElevatorsController(display, elevatorInput);
-    display.ShowMessage("**********************Welcome to the DVT*******************");
+    _elevatorController = new ElevatorsController(notElevators, display, elevatorInput);
+    _display.ShowMessage("**********************Welcome to the DVT*******************");
   }
 
   public void Run()
@@ -23,33 +27,43 @@ public class Emulator
     switch (k.KeyChar)
     {
       case 'r':
-        Console.WriteLine("Starting...");
+        _display.ShowMessage("Starting...");
+        _elevatorController.Start();
         break;
-      case 'e':
-        Console.WriteLine("Emulating...");
+      case 'h':
+        _display.ShowMessage("App Log...");
+        _elevatorController.ViewLog();
+        break;
+      case 'l':
+        _display.ShowMessage("App Log...");
+        _elevatorController.ViewLog();
         break;
       case 'c':
-        Console.WriteLine("Calling elevator...");
+        _display.ShowMessage("Calling elevator...");
         _elevatorController.CallElevator();
         break;
       case 'q':
-        Console.WriteLine("Quitting...");
+        _display.ShowMessage("Quitting...");
         break;
       case 's':
-        Console.WriteLine("Elevators status...");
+        _display.ShowMessage("Elevators status...");
+        _elevatorController.GetState();
         break;
       default:
-        Console.WriteLine("Invalid choice...");
+        _display.ShowMessage("Invalid choice...");
         break;
     }
-
-
-
-    // Console.Clear();
-    // Console.WriteLine($"Your choice is: {k.KeyChar}");
-
-
-    // elevatorController.Run();
+  }
+  public void GetAppSummary()
+  {
+    _display.ShowMessage("**********************Welcome to the DVT*******************");
+    _display.ShowMessage("This is a simple elevator emulator");
+    _display.ShowMessage("You can run the application emulation by pressing 'r'");
+    _display.ShowMessage("You can call an elevator by pressing 'c'");
+    _display.ShowMessage("You can view the log by pressing 'l'");
+    _display.ShowMessage("You can view the elevators status by pressing 's'");
+    _display.ShowMessage("You can quit the application by pressing 'q'");
+    _display.ShowMessage("***********************************************************");
   }
 }
 
