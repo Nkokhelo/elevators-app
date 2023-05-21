@@ -2,7 +2,7 @@
 var display = new Display();
 var noOfElevators = 3;
 var maxFloors = 5;
-var maxPeople = 5;
+var maxPeople = 30;
 var validation = new Validation(maxFloors, maxPeople);
 var input = new Input(display, validation);
 var logger = new AppLogger();

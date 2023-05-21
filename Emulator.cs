@@ -3,15 +3,15 @@ public class Emulator
 
   private readonly ElevatorsController _elevatorController;
   private readonly IDisplay _display;
-  private int notElevators = 2;
-  private int maxFloors = 6;
-  private int maxPeople = 30;
+  private int _notElevators;
+  private int _maxFloors;
+  private int _maxPeople;
   public Emulator(IDisplay display, IAppLogger appLogger, Validation validation, IInput input, ElevatorsController elevatorsController, int noOfElevators, int maxFloors, int maxPeople)
   {
     _display = display;
-    notElevators = noOfElevators;
-    this.maxFloors = maxFloors;
-    this.maxPeople = maxPeople;
+    _notElevators = noOfElevators;
+    this._maxFloors = maxFloors;
+    this._maxPeople = maxPeople;
     _elevatorController = elevatorsController;
     AppSummary();
   }

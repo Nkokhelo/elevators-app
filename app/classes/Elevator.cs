@@ -105,7 +105,7 @@ public class Elevator : IElevator
 
   public override string ToString()
   {
-    return $"Elevator:{_id}, NoOfPeople:{_noOfPeople}, Direction:{_state}, Current Floor:{(_currentFloor == -1 ? "None" : _currentFloor)}, State:{jobStatus}";
+    return $"Elevator:{_id}, Floor:{(_currentFloor == -1 ? "None" : _currentFloor)}, Direction:{_state}, State:{jobStatus}, People:{_noOfPeople}";
   }
 }
 
