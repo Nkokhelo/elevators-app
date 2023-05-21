@@ -1,6 +1,7 @@
+
+// UI Interaction class
 public class Emulator
 {
-
   private readonly ElevatorsController _elevatorController;
   private readonly IDisplay _display;
   private int _notElevators;
