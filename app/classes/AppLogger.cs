@@ -1,6 +1,6 @@
 
 
-public class Log : ILog
+public class AppLogger : IAppLogger
 {
 
   List<string> _logHistory = new List<string>();

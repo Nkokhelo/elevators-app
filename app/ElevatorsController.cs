@@ -3,32 +3,28 @@ public class ElevatorsController
   private readonly IDisplay _display;
   private readonly IInput _input;
   private readonly List<Elevator> _elevators = new List<Elevator>();
-
-  private List<string> _log = new List<string>();
-
-  public ElevatorsController(int noOfElevators, IDisplay display, IInput elevatorInput)
+  private readonly IAppLogger _appLogger;
+  public ElevatorsController(int noOfElevators, IDisplay display, IInput elevatorInput, IAppLogger appLogger)
   {
     _input = elevatorInput;
     _display = display;
-
+    _appLogger = appLogger;
     for (int i = 0; i < noOfElevators; i++)
     {
-      _elevators.Add(new Elevator { Id = i + 1 });
+      var e = new Elevator(i + 1, appLogger);
+      _elevators.Add(e);
     }
-
-    // _elevators.ForEach(e => Console.WriteLine(e.ToString()));
-
   }
 
   public void Start()
   {
     // Seed testing data 
     var requests = new List<Request>() {
-      new Request(1, 3, 5),
-      new Request(1, 3, 5),
-      new Request(1, 3, 5),
-      new Request(1, 3, 5),
-      new Request(1, 3, 5)
+      new Request(2, 4, 21),
+      new Request(5, 1, 10),
+      new Request(2, 5, 14),
+      new Request(1, 3, 9),
+      new Request(4, 2, 25)
     };
 
     requests.ForEach(r => AddToElevator(r));
@@ -42,9 +38,8 @@ public class ElevatorsController
 
   public void AddToElevator(Request r)
   {
-    var elevator = _elevators.OrderBy(e => e.TravelTime(r)).First();
+    var elevator = _elevators.OrderBy(e => e.TotalDistance(r)).First();
     elevator.AddRequest(r);
-    _log.Add($"Elevator {elevator.Id} is called from floor {r.OriginFloor} to floor {r.DestinationFloor} to get {r.NoOfPeople} people");
   }
 
   public void GetState()
@@ -52,9 +47,8 @@ public class ElevatorsController
     _elevators.ForEach(e => Console.WriteLine(e.ToString()));
   }
 
-
   public void ViewLog()
   {
-    _log.ForEach(Console.WriteLine);
+    _appLogger.View();
   }
 }

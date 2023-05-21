@@ -6,22 +6,17 @@ public class Emulator
   private int notElevators = 2;
   private int maxFloors = 6;
   private int maxPeople = 30;
-  public Emulator(IDisplay display)
+  public Emulator(IDisplay display, IAppLogger appLogger, Validation validation, IInput input, ElevatorsController elevatorsController, int noOfElevators, int maxFloors, int maxPeople)
   {
     _display = display;
-    var validation = new Validation(maxFloors, maxPeople);
-    var elevatorInput = new Input(display, validation);
-    _elevatorController = new ElevatorsController(notElevators, display, elevatorInput);
-    _display.ShowMessage("**********************Welcome to the DVT*******************");
+    notElevators = noOfElevators;
+    this.maxFloors = maxFloors;
+    this.maxPeople = maxPeople;
+    _elevatorController = elevatorsController;
+    AppSummary();
   }
-
   public void Run()
   {
-    //r - start the application
-    //e - emulate lifts movements
-    //c - call elevator
-    //q - quit
-    //s - elevators status
     var k = Console.ReadKey();
     Console.Clear();
     switch (k.KeyChar)
@@ -31,8 +26,8 @@ public class Emulator
         _elevatorController.Start();
         break;
       case 'h':
-        _display.ShowMessage("App Log...");
-        _elevatorController.ViewLog();
+        _display.ShowMessage("Get Help...");
+        AppSummary();
         break;
       case 'l':
         _display.ShowMessage("App Log...");
@@ -54,15 +49,16 @@ public class Emulator
         break;
     }
   }
-  public void GetAppSummary()
+  public void AppSummary()
   {
     _display.ShowMessage("**********************Welcome to the DVT*******************");
     _display.ShowMessage("This is a simple elevator emulator");
-    _display.ShowMessage("You can run the application emulation by pressing 'r'");
-    _display.ShowMessage("You can call an elevator by pressing 'c'");
-    _display.ShowMessage("You can view the log by pressing 'l'");
-    _display.ShowMessage("You can view the elevators status by pressing 's'");
-    _display.ShowMessage("You can quit the application by pressing 'q'");
+    _display.ShowMessage("Press 'r' to run the application emulation with default data");
+    _display.ShowMessage("Press 'c' to call an elevator");
+    _display.ShowMessage("Press 'l' to view the log");
+    _display.ShowMessage("Press 'h' to get help");
+    _display.ShowMessage("Press 's' to view the elevators status");
+    _display.ShowMessage("Press 'q' to quit the application");
     _display.ShowMessage("***********************************************************");
   }
 }
