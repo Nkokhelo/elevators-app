@@ -3,13 +3,13 @@ using System.Text.RegularExpressions;
 
 public class Validation
 {
-  public int MaxFloors { get; set; }
-  public int MaxPeople { get; set; }
+  private int _maxFloors { get; set; }
+  private int _maxPeople { get; set; }
 
   public Validation(int maxFloors, int maxPeople)
   {
-    MaxFloors = maxFloors;
-    MaxPeople = maxPeople;
+    _maxFloors = maxFloors;
+    _maxPeople = maxPeople;
   }
 
   public virtual Request ValidateAndPassInput(string? input)
@@ -30,11 +30,11 @@ public class Validation
     var r = requestInput.Select(x => int.Parse(x)).ToArray();
     var request = new Request(r[0], r[1], r[2]);
 
-    if (request.OriginFloor > MaxFloors || request.DestinationFloor > MaxFloors)
-      throw new Exception($"Maximum floor is {MaxFloors}");
+    if (request.OriginFloor > _maxFloors || request.DestinationFloor > _maxFloors)
+      throw new Exception($"Maximum floor is {_maxFloors}");
 
-    if (request.NoOfPeople > MaxPeople)
-      throw new Exception($"Maximum people alowed is per elevator {MaxPeople}");
+    if (request.NoOfPeople > _maxPeople)
+      throw new Exception($"Maximum people alowed is per elevator {_maxPeople}");
 
     if (request.OriginFloor == request.DestinationFloor)
       throw new Exception($"Origin floor and destination floor cannot be the same");

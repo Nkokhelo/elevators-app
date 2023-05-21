@@ -4,6 +4,8 @@ public class ElevatorsController
   private readonly IInput _input;
   private readonly List<Elevator> _elevators = new List<Elevator>();
   private readonly IAppLogger _appLogger;
+
+  private bool _isRunning = false;
   public ElevatorsController(int noOfElevators, IDisplay display, IInput elevatorInput, IAppLogger appLogger)
   {
     _input = elevatorInput;
@@ -18,7 +20,14 @@ public class ElevatorsController
 
   public void Start()
   {
-    // Seed testing data 
+    if (_isRunning)
+    {
+      _display.ShowMessage("Elevators are already running");
+      return;
+    }
+
+    _isRunning = true;
+    // Seeding data 
     var requests = new List<Request>() {
       new Request(2, 4, 21),
       new Request(5, 1, 10),
