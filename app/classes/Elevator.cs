@@ -74,23 +74,24 @@ public class Elevator : IElevator
         {
           case "fetching":
             _state = _currentFloor > request.OriginFloor ? EState.Down : EState.Up;
-            _appLogger.Add($"Elevator {_id} is fetching \t\t {request.NoOfPeople} people from {_currentFloor} to {request.OriginFloor}");
+            _appLogger.Add($"Elevator {_id} is fetching {request.NoOfPeople} people from {_currentFloor} to {request.OriginFloor}");
             break;
           case "loading":
             _state = EState.Stopped;
             _noOfPeople += request.NoOfPeople;
             _currentFloor = request.OriginFloor;
-            _appLogger.Add($"Elevator {_id} is loading \t\t {request.NoOfPeople} people at {_currentFloor}");
+            _appLogger.Add($"Elevator {_id} is loading {request.NoOfPeople} people at {_currentFloor}");
             break;
           case "moving":
             _state = request.GetDirection();
-            _appLogger.Add($"Elevator {_id} is moving \t\t {request.NoOfPeople} people from {_currentFloor} to {request.DestinationFloor}");
+            _currentFloor = -1;
+            _appLogger.Add($"Elevator {_id} is moving {request.NoOfPeople} people from {request.OriginFloor} to {request.DestinationFloor}");
             break;
           case "unloading":
             _state = EState.Stopped;
             _noOfPeople -= request.NoOfPeople;
             _currentFloor = request.DestinationFloor;
-            _appLogger.Add($"Elevator {_id} is unloading \t\t {request.NoOfPeople} people at {_currentFloor} from {request.OriginFloor} ");
+            _appLogger.Add($"Elevator {_id} is unloading {request.NoOfPeople} people at {_currentFloor} from {request.OriginFloor} ");
             break;
         }
         await Task.Delay(3000);
@@ -104,7 +105,7 @@ public class Elevator : IElevator
 
   public override string ToString()
   {
-    return $"Elevator:{_id}, NoOfPeople:{_noOfPeople}, Direction:{_state}, Current Floor:{_currentFloor}, State:{jobStatus}";
+    return $"Elevator:{_id}, NoOfPeople:{_noOfPeople}, Direction:{_state}, Current Floor:{(_currentFloor == -1 ? "None" : _currentFloor)}, State:{jobStatus}";
   }
 }
 

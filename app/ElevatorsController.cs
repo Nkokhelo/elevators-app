@@ -5,7 +5,7 @@ public class ElevatorsController
   private readonly List<Elevator> _elevators = new List<Elevator>();
   private readonly IAppLogger _appLogger;
 
-  private bool _isRunning = false;
+  public bool IsRunning = false;
   public ElevatorsController(int noOfElevators, IDisplay display, IInput elevatorInput, IAppLogger appLogger)
   {
     _input = elevatorInput;
@@ -20,13 +20,13 @@ public class ElevatorsController
 
   public void Start()
   {
-    if (_isRunning)
+    if (IsRunning)
     {
-      _display.ShowMessage("Elevators are already running");
+      _display.ShowMessage("Elevators are already running...");
       return;
     }
 
-    _isRunning = true;
+    IsRunning = true;
     // Seeding data 
     var requests = new List<Request>() {
       new Request(2, 4, 21),
